@@ -1,0 +1,439 @@
+@media (min-width: 1200px) {
+    .container {
+        width: 1200px;
+    }
+}
+ul li {
+    list-style: none;
+}
+a:hover {
+    text-decoration : none;
+}
+@font-face {
+    font-family: GenBasB;
+    src: url(../fonts/GenBasB.ttf);
+}
+@font-face {
+    font-family: YesevaOne;
+    src: url(../fonts/YesevaOne-Regular_v2-webfont.woff);
+}
+@font-face {
+    font-family: Lato;
+    src: url(../fonts/Lato-Regular.ttf);
+}
+@font-face {
+    font-family: GenBkBasB;
+    src: url(../fonts/GenBkBasB.ttf);
+}
+.custom {
+    position: absolute;
+    width: 100%;
+    z-index: 999;
+}
+.wrapper {
+    .main-header {
+        background : url("../images/code/bg-header.jpg") no-repeat center;
+        -webkit-box-shadow: inset 0 44px 64px -16px rgba(0,0,0,0.8);
+        -moz-box-shadow: inset 0 44px 64px -16px rgba(0,0,0,0.8);
+        box-shadow: inset 0 44px 64px -16px rgba(0,0,0,0.8);
+        a.logo {
+            display: inline-block;
+            margin-left: -40px;
+            float: left;
+            line-height: 100px;
+        }
+        nav {
+            float: right;
+        }
+    }
+    .menu {
+        li {
+            float: left;
+            font-size: 21px;
+            margin-right: 50px;
+            line-height: 110px;
+            a {
+                color: #fff;
+                font-family: GenBasB;
+                position: relative;
+            }
+        }
+        li:not(.soceity) {
+            a:hover {
+                &:before {
+                    content: '';
+                    border-top: 3px solid #cac8bf;
+                    width: 100%;
+                    display: inline-block;
+                    position: absolute;
+                }
+            }
+        }
+        li:nth-last-child(4),.soceity {
+            margin-right : 15px;
+        }
+        .no-mr {
+            margin-right : 0px;
+        }
+        .soceity a {
+            color: #dab33e;
+        }
+    }
+    .slogan {
+        background : url("../images/code/icon-slogan.png") no-repeat center bottom;
+        padding-bottom: 65px;
+        h1 {
+            font-size: 90px;
+            text-align: center;
+            color: #fff;
+            padding: 0px 52px;
+            font-family: YesevaOne;
+            font-weight: normal;
+        }
+    }
+    .btn-header {
+        text-align: center;
+        margin-top: 35px;
+        margin-bottom: 142px;
+        > a {
+            width: 228px;
+            height: 57px;
+            display: inline-block;
+            text-align: center;
+            line-height: 57px;
+            color: #fff;
+        }
+        .btn-book {
+            border: 1px solid #000;
+            background: rgba(0, 0, 0, 0.47);
+            margin-right: 30px;
+        }
+        .btn-see-mn:hover {
+            border: 1px solid #000;
+            background: rgba(0, 0, 0, 0.47);
+        }
+        >a:visited {
+            text-decoration : none;
+        }
+        >a:link {
+            text-decoration : none;
+        }
+
+        .btn-see-mn, .btn-book:hover {
+            background: rgba(255, 255, 255, 0.31);
+            border: 1px solid #fff;
+        }
+    }
+    .st_first {
+        padding : 62px 0px;
+        background : url("../images/code/bg_section.jpg") no-repeat center;
+        .col-md-6:first-of-type {
+            text-align: center;
+            padding-right: 50px;
+            img {
+                margin-right: -71px;
+                margin-top: 28px;
+            }
+        }
+        .row {
+            padding: 0px 100px;
+        }
+        .title {
+            font-size : 36px;
+            color: #cc9900;
+            font-family: YesevaOne;
+            background : url("../images/code/icon_st_title_fs.png") no-repeat center bottom;
+            padding-bottom: 40px;
+            margin-bottom: 35px;
+        }
+        p {
+            font-size: 16px;
+            font-family: Lato;
+        }
+
+        .col-md-6:last-of-type {
+            padding: 0px;
+            img {
+                width: 102%;
+                -webkit-box-shadow: 0 44px 64px -16px rgba(0, 0, 0, 0.26);
+                -moz-box-shadow: 0 44px 64px -16px rgba(0, 0, 0, 0.26);
+                box-shadow: 0 44px 64px -16px rgba(0, 0, 0, 0.26);
+                border-radius: 100%;
+            }
+        }
+    }
+    .st_second {
+        background: url(../images/code/bg_section_sc.jpg) no-repeat;
+        padding: 100px 0px;
+        background-size: cover;
+        color: #fff;
+        .info_food {
+            padding: 60px 77px;
+            text-align: center;
+            background: rgba(0,0,0,0.64);
+            .title {
+                font-size: 36px;
+                font-family: YesevaOne;
+                background: url(../images/code/icon_st_title_sc.png) no-repeat center bottom;
+                padding-bottom: 42px;
+                margin-bottom: 20px;
+                margin-top: 0px;
+            }
+            p {
+                font-family: Lato;
+                font-size: 16px;
+                line-height: 22px;
+            }
+            .img_food {
+                margin-top: 65px;
+                img {
+                    border-radius: 50%;
+                    border: 6px solid #433f3a;
+                }
+                img:nth-child(2) {
+                    margin: 0px 30px;
+                }
+            }
+        }
+    }
+    .st_third {
+        padding: 45px 0px;
+        background : url("../images/code/bg_section.png");
+        //background : url("../images/code/bg_section_td.jpg") no-repeat;
+        //background-size: cover;
+        position : relative;
+        &:before {
+            content: " ";
+            width: 100%;
+            height: 100%;
+            position : absolute;
+            opacity: 0.4;
+            top: 0;
+            left: 0;
+            background: -webkit-linear-gradient(left top, #ebf0f0, #f9f9f9); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(bottom right, #ebf0f0, #f9f9f9); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(bottom right, #ebf0f0, #f9f9f9); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(to bottom right, #ebf0f0, #f9f9f9); /* Standard syntax */
+        }
+        .mn_left, .mn_right {
+            padding: 0px 70px;
+            ul {
+                font-family : YesevaOne;
+                padding: 0px;
+                li {
+                    margin-bottom: 25px;
+                }
+                .name_and_price {
+                    font-size: 21px;
+                    border-bottom: 1px solid;
+                    padding-bottom: 10px;
+                    margin-bottom: 10px;
+                }
+                span {
+                    display: inline-block;
+                }
+                .name {
+                    float : left;
+                    padding-top: 6px;
+                }
+                .price {
+                    float : right;
+                    padding-top: 6px;
+                }
+                .li_special {
+                    position: relative;
+                    border: 1px solid #d6b967;
+                    border-right: 0px;
+                    border-left: 0px;
+                    &:before {
+                        content: '';
+                        height: 102%;
+                        width: 12px;
+                        border: 1px solid #d6b967;
+                        position: absolute;
+                        border-right: 0px;
+                        left: -12px;
+                        top: -1px;
+                    }
+                    &:after {
+                        content: '';
+                        height: 102%;
+                        width: 12px;
+                        border: 1px solid #d6b967;
+                        position: absolute;
+                        border-left: 0px;
+                        right: -12px;
+                        top: -1px;
+                    }
+                    .special {
+                        position: absolute;
+                        bottom: 100%;
+                        right: -12px;
+                        background: #d6b967;
+                        font-size: 14px;
+                        padding: 2px 10px;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+        .title, .name_and_price {
+            color: #cc9900;
+        }
+        p.summary {
+            font-size: 16px;
+            margin-bottom: 35px;
+            font-family: Lato;
+        }
+        .title {
+            font-size: 36px;
+            text-align : center;
+            background : url("../images/code/icon_st_title_td.png") no-repeat center bottom;
+            padding-bottom: 36px;
+            margin-bottom: 26px;
+            padding-top: 12px;
+            font-family : YesevaOne;
+        }
+    }
+    .sc_four {
+        background : url("../images/code/bg_section_four.jpg") no-repeat center;
+        -webkit-background-size : cover;
+        background-size         : cover;
+        padding : 100px 0px;
+        .review {
+            background: rgba(0, 0, 0, 0.78);
+            text-align: center;
+            color: #fff;
+            padding: 70px;
+            .title {
+                font-size: 36px;
+                font-family: YesevaOne;
+                background: url(../images/code/icon_st_title_fr.png) no-repeat center bottom;
+                padding-bottom: 40px;
+                margin-bottom: 18px;
+            }
+            p {
+                font-size: 25px;
+                font-family: GenBkBasB;
+                position: relative;
+                &:before {
+                    content: '';
+                    background: url(../images/code/icon_p_sc_fr.png) no-repeat left top;
+                    position: absolute;
+                    width: 32px;
+                    height: 25px;
+                    left: -40px;
+                };
+                span {
+                    display: block;
+                    text-align: center;
+                    margin-top: 40px;
+                    font-size: 18px;
+                    margin-bottom: 35px;
+                }
+            }
+        }
+    }
+    .sc_fifth {
+        background : url("../images/code/bg_section_fif.jpg") no-repeat center;
+        -webkit-background-size : cover;
+        background-size         : cover;
+        padding: 100px 0px;
+        .img_bk_fd {
+            img {
+                width: 100%;
+            }
+        }
+        .form_bk_fd {
+            padding: 0px 85px;
+        }
+        .smy_fd {
+            margin-bottom: 45px;
+        }
+        .title {
+            color: #cc9900;
+            font-size: 36px;
+            background: url(../images/code/icon_st_title_fs.png) no-repeat center bottom;
+            padding-bottom: 35px;
+            margin-bottom: 25px;
+            text-align : center;
+            font-family: YesevaOne;
+            margin-top: 0px;
+        }
+        p {
+            font-size: 16px;
+            text-align : center;
+            font-family: Lato;
+        }
+        .book {
+            label {
+                color: #cc9900;
+            }
+            input, select {
+                border-radius: 0px;
+                background: rgba(255, 255, 255, 0.51);
+                font-style: italic;
+                outline: none;
+                &:focus {
+                    border-color: #cc9900;
+                    outline: 0;
+                    -webkit-box-shadow: none;
+                     box-shadow: none;
+                }
+            }
+            .inp_submit {
+                margin-bottom : 0px;
+                input {
+                    font-size: 16px;
+                    color: #fff;
+                    text-align: center;
+                    font-style : normal;
+                    border: none;
+                    background : #c9a131;
+                    margin-top : 40px;
+                }
+            }
+            .date {
+                position: relative;
+                &:before {
+                    position: absolute;
+                    font: normal normal normal 14px/1 FontAwesome;
+                    content: "\f073";
+                    right: 22px;
+                    bottom: 11px;
+                }
+            }
+        }
+    }
+    footer {
+        background : #191919;
+        color: #fff;
+        text-align: center;
+        padding: 52px 0px;
+        .title {
+            font-size: 21px;
+            font-family: YesevaOne;
+            background : url("../images/code/bg_title_footer.png") no-repeat center bottom;
+            padding-bottom: 35px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 23px;
+        }
+        .open_hour p {
+            margin-bottom: 1px;
+        }
+        .open_hour, .our_local {
+            padding: 0px 85px;
+        }
+        .card, .socie {
+            margin-top: 45px;
+            i {
+                font-size: 17px !important;
+                margin-right: 8px;
+                color: #fff;
+            }
+        }
+    }
+}
