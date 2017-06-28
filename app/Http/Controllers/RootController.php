@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Cate;
+use App\Models\Cate;
 use App\Helper\Toolbar;
 use App\Helper\Tree;
 use App\Helper\Images;
@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\File;
 
 class RootController extends Controller
 {
-    protected $model;
-    protected $md;
     public function __construct()
     {
         $this->toolBar = new ToolBar();
@@ -21,17 +19,6 @@ class RootController extends Controller
         //$this->md = new $this->model;
 
     }
-
-    public function setModel($model_namespace)
-    {
-        if (! class_exists($model_namespace)) {
-            throw new \Exception('This model does not exist.', 404);
-        }
-
-        $this->model = new $model_namespace();
-        //$this->query = $this->model->select('*');
-    }
-
     /*get list data*/
     public function listData() {
         $button = $this->toolBar->showButton('List'); /*tham số truyền vào 2 giá trị là "List" và "Detail" tương ứng với 2 function*/

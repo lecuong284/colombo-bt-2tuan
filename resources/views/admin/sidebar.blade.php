@@ -91,7 +91,7 @@
                 </ul>
             </li>
             <li>
-                <a href="{!! route('admin.order') !!}">
+                <a href="{!! route('admin.order.listData') !!}">
                     <i class="fa fa-pie-chart"></i>
                     <span>Order</span>
                 </a>

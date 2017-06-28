@@ -8,7 +8,7 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
         <link rel="stylesheet" href="{{asset("css/bootstrap.min.css")}}">
-        <link rel="stylesheet" href="{{asset("css/bootstrap-datetimepicker.min.css")}}">
+        {{--<link rel="stylesheet" href="{{asset("css/bootstrap-datetimepicker.min.css")}}">--}}
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{asset("css/font-awesome.min.css")}}">
         <!-- Ionicons -->
@@ -24,7 +24,7 @@
         <!-- jvectormap -->
         {{--<link rel="stylesheet" href="{{asset("css/jquery-jvectormap-1.2.2.css")}}">--}}
         <!-- Date Picker -->
-        {{--<link rel="stylesheet" href="{{asset("css/datepicker3.css")}}">--}}
+        <link rel="stylesheet" href="{{asset("css/datepicker3.css")}}">
         <!-- Daterange picker -->
         {{--<link rel="stylesheet" href="{{asset("css/daterangepicker.css")}}">--}}
         <!-- bootstrap wysihtml5 - text editor -->
@@ -104,7 +104,7 @@
         <!-- daterangepicker -->
         {{--<script src="{{asset("js/daterangepicker.js")}}"></script>--}}
         <!-- datepicker -->
-        {{--<script src="{{asset("js/bootstrap-datepicker.js")}}"></script>--}}
+        <script src="{{asset("js/bootstrap-datepicker.js")}}"></script>
         <!-- Bootstrap WYSIHTML5 --> {{--editer--}}
         {{--<script src="{{asset("js/bootstrap3-wysihtml5.all.min.js")}}"></script>--}}
 
@@ -113,7 +113,7 @@
         <!-- FastClick -->
         {{--<script src="{{asset("js/fastclick.min.js")}}"></script>--}}
         <!-- AdminLTE App -->
-        <script src="{{asset("js/bootstrap-datetimepicker.min.js")}}"></script>
+        {{--<script src="{{asset("js/bootstrap-datetimepicker.min.js")}}"></script>--}}
         <script src="{{asset("js/adminlte.min.js")}}"></script>
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         {{--<script src="{{asset("js/dashboard.js")}}"></script>--}} {{--bản đồ--}}

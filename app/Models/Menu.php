@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Prettus\Repository\Contracts\Transformable;
-use Prettus\Repository\Traits\TransformableTrait;
 
-class Menu extends Model implements Transformable
+class Menu extends Model
 {
-    use TransformableTrait;
 
     protected $fillable = [
         'name',
@@ -22,5 +19,9 @@ class Menu extends Model implements Transformable
         'published',
         'ordering',
     ];
+
+    public function getFillable() {
+        return $this->fillable;
+    }
 
 }

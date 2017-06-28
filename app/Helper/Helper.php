@@ -161,16 +161,29 @@
                         $j ++;
                     }
                 } else {
-                    foreach ($array_select as $name) {
-                        $checked = "";
-                        if(!$compare && !$j && !$add_fisrt_option){
-                            $checked = "selected=\"selected\"";
-                        } else {
-                            if($compare == $name->id)
+                    foreach ($array_select as $key => $name) {
+                        if(is_object($name)) {
+                            $checked = "";
+                            if(!$compare && !$j && !$add_fisrt_option){
                                 $checked = "selected=\"selected\"";
+                            } else {
+                                if($compare == $name->id)
+                                    $checked = "selected=\"selected\"";
+                            }
+                            $html .= '<option value="'.$name->id.'" '. $checked.'>'.$name->name.'</option>';
+                            $j ++;
                         }
-                        $html .= '<option value="'.$name->id.'" '. $checked.'>'.ucfirst($name->name).'</option>';
-                        $j ++;
+                        else {
+                            $checked = "";
+                            if(!$compare && !$j && !$add_fisrt_option){
+                                $checked = "selected=\"selected\"";
+                            } else {
+                                if($compare == $key)
+                                    $checked = "selected=\"selected\"";
+                            }
+                            $html .= '<option value="'.$key.'" '. $checked.'>'.$name.'</option>';
+                            $j ++;
+                        }
                     }
                 }
             }
@@ -216,7 +229,7 @@
             $value = '';
         $html = '<div class="form-group">';
         $html .= '<label class="control-label col-sm-'. $sizeLabel .'">'. $label . '</label>';
-        $html .= '<div class="col-sm-'. $sizeInput .' input-group date" id="datetimepicker">';
+        $html .= '<div class="col-sm-'. $sizeInput .' input-group date" id="datepicker">';
         $html .= '		<input type="text" name="' . $name . '" class="form-control" id="' . $name . '" value="' . htmlspecialchars ( $value ) . '"/>';
         $html .= '		<span class="input-group-addon">
                     <span class="fa fa-calendar">

@@ -1,6 +1,11 @@
 /**
  * Created by Admin on 6/11/2017.
  */
+$(function () {
+    $('#datepicker').datepicker({
+        autoclose: true
+    });
+});
 
 function submitbutton(pressbutton) {
     submitform(pressbutton);

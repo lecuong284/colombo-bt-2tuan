@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="{{asset("css/datepicker3.css")}}">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{asset("css/font-awesome.min.css")}}">
-        <link rel="stylesheet" href="{{asset("css/style.css")}}">
+        <link rel="stylesheet" href="{{asset("css/style.css") }}">
 
         @yield('css')
 

@@ -8,8 +8,9 @@
 
 {!! dtEditText($label = 'Name', $sizeLabel = 2, $name = 'name',$value = @$data -> name, $type = 'text', $sizeInput = 6, $placeholder = 'Nhập tên món ăn', $rowsTextarea = 0, $commet = 'Bạn cần nhập tên danh mục', $sizeComment = 4, $editor = 0) !!}
 
-{!! dt_checkbox($label = 'Published', $sizeLabel = 2, $name = 'published',$value = @$data -> published, $sizeInput = 6, $defautl = 1) !!}
 {!! dtEditText($label = 'Alias', $sizeLabel = 2, $name = 'alias',$value = @$data -> alias, $type = 'text', $sizeInput = 6, $placeholder = 'Nhập alias', $rowsTextarea = 0, $commet = 'Trường này có thể tự tạo', $sizeComment = 4, $editor = 0) !!}
+
+{!! dt_checkbox($label = 'Published', $sizeLabel = 2, $name = 'published',$value = @$data -> published, $sizeInput = 6, $defautl = 1) !!}
 
 {!! dtEditText($label = 'Category Order', $sizeLabel = 2, $name = 'ordering',$value = @$data -> ordering, $type = 'text', $sizeInput = 6, $placeholder = 'Nhập thứ tự', $rowsTextarea = 0, $commet = 'Bạn cần nhập tên danh mục', $sizeComment = 0, $editor = 0) !!}
 

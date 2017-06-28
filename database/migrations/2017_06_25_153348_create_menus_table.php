@@ -17,7 +17,6 @@ class CreateMenusTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('alias');
-            $table->integer('cate_id');
             $table->string('list_parents')->nullable();
             $table->string('link')->nullable();
             $table->string('image')->nullable();

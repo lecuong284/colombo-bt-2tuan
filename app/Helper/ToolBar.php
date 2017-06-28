@@ -14,6 +14,7 @@
             $this->title = "Hệ thống quản lý nội dung(CMS)";
             $this->buttons = array();
             $this->buttons_html = array();
+            $this->deleteItem = '';
         }
         public function addButton($task = 'task', $alt = 'task', $msg = '', $img = '')
         {
@@ -34,10 +35,9 @@
             $html = "";
             if (!empty($this->buttons) || !empty($this->buttons_html)) {
                 $buttons = $this->buttons;
-
                 $html .= " <div id=\"wrap-toolbar\" class=\"wrap-toolbar\">";
-                for ($i = 0; $i < count($buttons); $i++) {
-                    $item = $buttons[$i];
+                foreach ($buttons as $key => $item) {
+                //$item = $buttons[$i];
                     if ($item['msg']) {
                         $html .= "<a class=\"toolbar\" onclick=\"javascript:if(document.adminForm.boxchecked.value==0){alert('" .
                             $item['msg'] . "');}else{submitbutton('" . $item['task'] . "')} \" href=\"javascript:void(0)\" >";
@@ -63,8 +63,19 @@
             $this->addButton('save_all','Save','','fa-save');
             $this->addButton('edit','Edit','Bạn phải chọn ít nhất một bản ghi','fa-pencil');
             $this->addButton('remove','Remove','Bạn phải chọn ít nhất một bản ghi','fa-trash-o');
-            $this->addButton('published','Published','Bạn phải chọn ít nhất một bản ghi','fa-check-circle-o');
-            $this->addButton('unpublished','Unpublished','Bạn phải chọn ít nhất một bản ghi','fa-dot-circle-o');
+            /*$this->addButton('published','Published','Bạn phải chọn ít nhất một bản ghi','fa-check-circle-o');
+            $this->addButton('unpublished','Unpublished','Bạn phải chọn ít nhất một bản ghi','fa-dot-circle-o');*/
+            if($this->deleteItem) {
+                $this->deleteItemList($this->deleteItem);
+            }
+        }
+
+        public function deleteItemList($deleteItem) {
+            foreach ($this->buttons as $key => $button) {
+                if($button['task'] == $deleteItem) {
+                    unset($this->buttons[$key]);
+                }
+            }
         }
 
         public function showButtomDetail() {
@@ -72,5 +83,8 @@
             $this->addButton('apply', 'Apply', '', 'fa-check');
             $this->addButton('save', 'Save', '', 'fa-save');
             $this->addButton('back', 'Cancel', '', 'fa-reply');
+            if($this->deleteItem) {
+                $this->deleteItemList($this->deleteItem);
+            }
         }
     }

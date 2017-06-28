@@ -3,232 +3,53 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helper\Toolbar;
+use App\Helper\Tree;
 use App\Http\Controllers\Controller;
+use App\Models\Menu;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Prettus\Validator\Contracts\ValidatorInterface;
-use Prettus\Validator\Exceptions\ValidatorException;
-use App\Http\Requests\MenuCreateRequest;
-use App\Http\Requests\MenuUpdateRequest;
-use App\Contracts\Repositories\MenuRepository;
-use App\Validators\MenuValidator;
-
 
 class MenusController extends Controller
 {
 
-    /**
-     * @var MenuRepository
-     */
-    protected $repository;
 
-    /**
-     * @var MenuValidator
-     */
-    protected $validator;
-
-    public function __construct(MenuRepository $repository, MenuValidator $validator)
+    public function __construct()
     {
         $this->toolBar = new ToolBar();
-        $this->repository = $repository;
-        $this->validator  = $validator;
-    }
-
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $menus = $this->repository->all();
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $menus,
-            ]);
-        }
-
-        return view('menus.index', compact('menus'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  MenuCreateRequest $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function store(MenuCreateRequest $request)
-    {
-
-        try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-
-            $menu = $this->repository->create($request->all());
-
-            $response = [
-                'message' => 'Menu created.',
-                'data'    => $menu->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $menu = $this->repository->find($id);
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $menu,
-            ]);
-        }
-
-        return view('menus.show', compact('menu'));
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-
-        $menu = $this->repository->find($id);
-
-        return view('menus.edit', compact('menu'));
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  MenuUpdateRequest $request
-     * @param  string            $id
-     *
-     * @return Response
-     */
-    public function update(MenuUpdateRequest $request, $id)
-    {
-
-        try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            $menu = $this->repository->update($request->all(), $id);
-
-            $response = [
-                'message' => 'Menu updated.',
-                'data'    => $menu->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-
-            if ($request->wantsJson()) {
-
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $deleted = $this->repository->delete($id);
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'message' => 'Menu deleted.',
-                'deleted' => $deleted,
-            ]);
-        }
-
-        return redirect()->back()->with('message', 'Menu deleted.');
     }
 
     /*i custom*/
     public function listData() {
         $button = $this->toolBar->showButton('List'); /*tham số truyền vào 2 giá trị là "List" và "Detail" tương ứng với 2 function*/
         $title = 'Menu Items';
-        $list = $this->repository->paginate(10);
+        $list = Menu::paginate(10);
         return view('admin.menu.menuItems.list', ['title' => $title, 'button' => $button, 'list' => $list]);
     }
 
     public function detailCate() {
         $button = $this->toolBar->showButton('Detail');
         $title = 'Menu Items';
-        $cates = $this->repository->detailCate();
+        $parent = Menu::select('id', 'name', 'parent_id')->get();
+        $tree = new Tree();
+        $cates = $tree->indentRows2($parent);
         return view('admin.menu.menuItems.detail', ['title' => $title, 'button' => $button, 'cates' => $cates]);
     }
 
     public function editCate($id) {
         $button = $this->toolBar->showButton('Detail');
         $title = 'Edit';
-        $data = $this->repository->editCate($id);
-        return view('admin.menu.menuItems.detail', ['title' => $title, 'button' => $button, 'data' => $data[0], 'cates' => $data[1]]);
+        $data = Menu::findOrFail($id);
+        $cates = '';
+        if(isset($data->parent_id)) {
+            $parent = Menu::select('id', 'name', 'parent_id')->get();
+            $tree = new Tree();
+            $cates = $tree->indentRows2($parent);
+        }
+        return view('admin.menu.menuItems.detail', ['title' => $title, 'button' => $button, 'data' => $data, 'cates' => $cates]);
     }
 
-    /*public function editR($id) {
-        $button = $this->toolBar->showButton('Detail');
-        $title = 'Edit Item';
-        $data = $this->repository->editR($id);
-        return view('admin.menu.menuItems.detail', ['title' => $title, 'button' => $button, 'data' => $data]);
-    }*/
-
-    public function save($request) {
+    public function save($request, $menu) {
         $this->validate($request,
             [
                 'name' => 'bail|required|unique:menus,name'
@@ -238,7 +59,18 @@ class MenusController extends Controller
                 'name.unique' => 'The name item is exist'
             ]
         );
-        return $this->repository->save($request);
+        $fields = $menu->getFillable();
+        foreach ($fields as $field) {
+            $menu->$field = $request->$field;
+        }
+
+        $menu->alias = $request->alias ? $request->alias : stringStandart($request->name);
+        $menu->save();
+        /*after save, I update field "list_parents" again*/
+        if($request->has('list_parents')) {
+            Menu::whereId(Menu::id)->update(['list_parents' => ",$this->model->id,"]);
+        }
+        return $menu->id;
     }
 
     /*function update cat*/
@@ -253,45 +85,87 @@ class MenusController extends Controller
             ]
         );
 
-        return $this->repository->updateCate($request, $id);
+        $existName = Menu::where('name', $request->name)->count();
+        if($existName && $request->name != $request->name_old) { /*validate when changes the name when update*/
+            return false;
+        }
+        $menu = Menu::find($id); /*methed find thì khi không tìm thấy dữ liệu thì không báo lỗi findOrFail thì báo lỗi*/
+        $fields = $menu->getFillable();
+        foreach ($fields as $field) {
+            $menu->$field = $request->$field;
+        }
+        $menu->alias = $request->alias ? $request->alias : stringStandart($request->name);
+        if($request->parent_id != 0) {
+            $parent = Menu::select('list_parents')->whereId($request->parent_id)->first();
+            if(strpos($parent->list_parents, $request->id) == true) {
+                return false;
+            }
+            $menu->list_parents = $parent->list_parents . $request->id . ',';
+
+        } else {
+            $menu->list_parents = ",$request->id,";
+        }
+        return $menu->save();
     }
 
     public function save_all($request) {
-        return $this->repository->save_all($request);
+        $total = $request->total;
+        if (!$total)
+            return true;
+        $field_change = $request->field_change;
+        if (!$field_change)
+            return false;
+        $field_change_arr = explode(',', $field_change);
+        $total_field_change = count($field_change_arr);
+        $record_change_success = 0;
+        for ($i = 0; $i < $total; $i++){
+            $row = array();
+            $update = 0;
+
+            foreach ($field_change_arr as $field_item){
+                $orginal = $field_item . '_' . $i . '_original';
+                $field_value_original = $request->$orginal;
+                $new = $field_item . '_' . $i;
+                $field_value_new = $request->$new;
+                if (is_array($field_value_new))
+                    $field_value_new = count($field_value_new) ? ',' . implode(',', $field_value_new).',' : '';
+                if ($field_value_original != $field_value_new){
+                    $update = 1;
+                    $row[$field_item] = $field_value_new;
+                }
+            }
+
+            if ($update){
+                $id_ = 'id_' . $i;
+                $id = $request->$id_;
+                Menu::where('id', $id)->update($row);
+                $record_change_success++;
+            }
+        }
+        return $record_change_success;
     }
 
     public function remove($id) {
-        return $this->repository->destroy($id);
+        return Menu::destroy($id);
     }
-
-    public function resizeImages($request, $fileName) {
-        $method = [
-            ['method' => 'fit','width' => '300','height' => '200'],
-            ['method' => 'resize','width' => '400','height' => '400'],
-            ['method' => 'crop','width' => '300','height' => '200'],
-        ];
-
-        $moduleName = 'menu';
-        return $this->repository->resizeImages($request, $fileName, $moduleName, $method);
-    }
-
 
 
     public function task(Request $request) {
         $task = $request->task;
         $id = $request->id;
+        $menu = new Menu();
         if(!$id) {
             switch ($task) {
                 case 'save-add': /*lưu thành công hay không thì cũng đưa về trang thêm vào hiển thị thông báo*/
-                    $this->save($request);
+                    $this->save($request, $menu);
                     return redirect()->route('admin.menu.getAddCate')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Menu Item']);
 
                 case 'apply': /*nếu lưu thành công thì đưa về trang sửa không thì đưa về trang thêm và hiển thị thông báo*/
-                    $id = $this->save($request);
+                    $id = $this->save($request, $menu);
                     return redirect()->route('admin.menu.getEditCate', ['id' => $id])->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Menu Item']);
 
                 case 'save': /*lưu thành công hay không cũng đưa về trang danh sách và hiển thị thông báo*/
-                    $this->save($request);
+                    $this->save($request, $menu);
                     return redirect()->route('admin.menu.listData')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Menu item']);
 
                 case 'add': /*chuyển đến trang thêm chi tiết*/

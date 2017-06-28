@@ -66,8 +66,19 @@
 
                 Route::get('/add/{id}', 'FoodsController@editR')->name('admin.food.getEditCate')->where('id', '[0-9]+'); /*cập nhật dữ liệu*/ /*dùng cho nút edit*/
             });
-            Route::get('admin/order', 'BookController@show')->name('admin.order');
-            Route::post('admin/order', 'BookController@show');
+
+            Route::group(['prefix' => 'admin/order'], function() {
+                Route::get('/', 'BooksController@listData')->name('admin.order.listData'); /*dạng danh sách*/
+                //Route::get('/add', 'FoodsController@detail')->name('admin.food.getAddCate'); /*hiển thị trang thêm*/ /*dùng cho nút add*/
+                Route::post('/task', 'BooksController@task')->name('admin.order.task'); /*lưu dữ liệu*/ /*dùng cho nút save & new, save, apply*/
+                /* Route::get('/task', function() {
+                     return back()->withInput();
+                 });*/
+
+                Route::get('/add/{id}', 'BooksController@editR')->name('admin.order.getEditCate')->where('id', '[0-9]+'); /*cập nhật dữ liệu*/ /*dùng cho nút edit*/
+            });
+            /*Route::get('admin/order', 'BooksController@listData')->name('admin.order');
+            Route::post('admin/order', 'BookController@listData');*/
         });
         /*Route::get('admin/logout', function() {
             Auth::logout();
@@ -75,7 +86,7 @@
     });
 
 
-    Route::get('book', 'Admin\BookController@order')->name('book');
+    Route::get('book', 'Admin\BooksController@order')->name('book');
 
 
 
