@@ -18,7 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('name')->unique();
             $table->string('email');
             $table->string('password');
-            $table->tinyInteger('lavel');
             $table->rememberToken();
             $table->timestamps();
         });

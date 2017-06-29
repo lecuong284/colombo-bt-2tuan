@@ -11,13 +11,7 @@ class Menu extends Model
         'name',
         'alias',
         'list_parents',
-        'link',
-        'image',
-        'parent_id',
-        'target',
-        'level',
-        'published',
-        'ordering',
+        'parent_id'
     ];
 
     public function getFillable() {

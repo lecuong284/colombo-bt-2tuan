@@ -21,9 +21,7 @@ class CreateFoodsTable extends Migration
             $table->foreign('cate_id')->references('id')->on('cate_foods')->onDelete('cascade');
             $table->float('price');
             $table->string('summary');
-            $table->boolean('published');
             $table->boolean('special');
-            $table->integer('ordering');
             $table->timestamps();
 		});
 	}

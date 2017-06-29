@@ -13,9 +13,7 @@ class Food extends Model
         'cate_id',
         'price',
         'summary',
-        'published',
-        'special',
-        'ordering'
+        'special'
     ];
 
     public function getFillable() {

@@ -60,7 +60,7 @@ class CateFoodsController extends Controller
     public function updateCate($request, $id) {
         $this->validate($request,
             [
-                'name' => 'required' /*con check trường hợp không được trùng nữa*/
+                'name' => 'required'
             ],
             [
                 'name.required' => 'Please enter category name'
@@ -69,10 +69,10 @@ class CateFoodsController extends Controller
         );
 
         $existName = CateFood::where('name', $request->name)->count();
-        if($existName && $request->name != $request->name_old) { /*validate when changes the name when update*/
+        if($existName && $request->name != $request->name_old) {
             return false;
         }
-        $cateFood = CateFood::find($id); /*methed find thì khi không tìm thấy dữ liệu thì không báo lỗi findOrFail thì báo lỗi*/
+        $cateFood = CateFood::find($id);
         $fields = $cateFood->getFillable();
         foreach ($fields as $field) {
             $cateFood->$field = $request->$field;
@@ -108,7 +108,6 @@ class CateFoodsController extends Controller
                     $row[$field_item] = $field_value_new;
                 }
             }
-
             if ($update){
                 $id_ = 'id_' . $i;
                 $id = $request->$id_;
@@ -128,83 +127,60 @@ class CateFoodsController extends Controller
         $id = $request->id;
         $cateFood = new CateFood();
         if(!$id) {
-            switch ($task) {
-                case 'save-add': /*lưu thành công hay không thì cũng đưa về trang thêm vào hiển thị thông báo*/
-                    $this->save($request, $cateFood);
-                    return redirect()->route('admin.cateFood.getAddCate')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Cate Food']);
-
-                case 'apply': /*nếu lưu thành công thì đưa về trang sửa không thì đưa về trang thêm và hiển thị thông báo*/
-                    $id = $this->save($request, $cateFood);
-                    return redirect()->route('admin.cateFood.getEditCate', ['id' => $id])->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Cate food']);
-
-                case 'save': /*lưu thành công hay không cũng đưa về trang danh sách và hiển thị thông báo*/
-                    $this->save($request, $cateFood);
-                    return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Cate food']);
-
-                case 'add': /*chuyển đến trang thêm chi tiết*/
-                    return redirect()->route('admin.cateFood.getAddCate');
-
-                case 'save_all': /*chuyển đến trang thêm chi tiết*/
-                    $id = $this->save_all($request);
-                    if($id) {
-                        return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Cate food']);
-                    } else {
-                        return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'danger', 'flash_message' => 'Not Save']);
-                    }
-
-                case 'back': /*trở về trang danh sách*/
-                    return redirect()->route('admin.cateFood.listData');
-
-                default:
-                    return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'danger', 'flash_message' => 'The action you require incorect']);
-
-            }
+            return $this->taskWithOutId($task, $request, $cateFood);
         } else {
-            switch ($task) {
-                case 'save-add': /*lưu thành công hay không thì cũng đưa về trang thêm vào hiển thị thông báo*/
-                    $result = $this->updateCate($request, $id);
-                    if($result) {
-                        return redirect()->route('admin.cateFood.getAddCate')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Edit Category']);
-                    }else {
-                        return redirect()->route('admin.cateFood.getAddCate')->with(['flash_level' => 'danger', 'flash_message' => 'Can not update']);
-                    }
+            return $this->taskWithId($task, $request, $id);
+        }
+    }
 
+    public function taskWithOutId($task, $request, $cateFood) {
+        switch ($task) {
+            case 'save-add':
+                $this->save($request, $cateFood);
+                return redirect()->route('admin.cateFood.getAddCate')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Cate Food']);
+            case 'apply':
+                $id = $this->save($request, $cateFood);
+                return redirect()->route('admin.cateFood.getEditCate', ['id' => $id])->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Cate food']);
+            case 'save':
+                $this->save($request, $cateFood);
+                return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Cate food']);
+            case 'add':
+                return redirect()->route('admin.cateFood.getAddCate');
+            case 'save_all':
+                $id = $this->save_all($request);
+                if($id) {
+                    return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Add Cate food']);
+                } else {
+                    return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'danger', 'flash_message' => 'Not Save']);
+                }
+            case 'back':
+                return redirect()->route('admin.cateFood.listData');
+            default:
+                return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'danger', 'flash_message' => 'The action you require incorect']);
+        }
+    }
 
-                case 'apply': /*nếu lưu thành công thì đưa về trang sửa không thì đưa về trang thêm và hiển thị thông báo*/
-                    $result = $this->updateCate($request, $id);
-                    if($result) {
-                        return redirect()->route('admin.cateFood.getEditCate', ['id' => $id])->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Edit Cate food']);
-                    }else {
-                        return redirect()->route('admin.cateFood.getEditCate', ['id' => $id])->with(['flash_level' => 'danger', 'flash_message' => 'Can not update']);
-                    }
-
-                case 'save': /*lưu thành công hay không cũng đưa về trang danh sách và hiển thị thông báo*/
-                    $result = $this->updateCate($request, $id);
-                    if($result) {
-                        return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Edit Cate food']);
-                    }else {
-                        return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'danger', 'flash_message' => 'Can not update']);
-                    }
-
-                case 'edit': /*chuyển đến trang sửa*/ /*chỉ sử dụng khi click vào checkbox rồi click button sửa*/
-                    $id = $id[0];
-                    return redirect()->route('admin.cateFood.getEditCate', ['id' => $id]);
-
-                case 'remove': /*delete data*/
-                    $result = $this->remove($id);
-                    if($result) {
-                        return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'success', 'flash_message' => 'Delete success']);
-                    } else {
-                        return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'danger', 'flash_message' => 'Exist error where delete']);
-                    }
-
-                case 'back': /*trở về trang danh sách*/
-                    return redirect()->route('admin.cateFood.listData');
-
-                default:
-                    return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'danger', 'flash_message' => 'The action you require incorect']);
-
-            }
+    public function taskWithId($task, $request, $id) {
+        switch ($task) {
+            case 'save-add':
+                $this->updateCate($request, $id);
+                return redirect()->route('admin.cateFood.getAddCate')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Edit Category']);
+            case 'apply':
+                $this->updateCate($request, $id);
+                return redirect()->route('admin.cateFood.getEditCate', ['id' => $id])->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Edit Cate food']);
+            case 'save':
+                $this->updateCate($request, $id);
+                return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Edit Cate food']);
+            case 'edit':
+                $id = $id[0];
+                return redirect()->route('admin.cateFood.getEditCate', ['id' => $id]);
+            case 'remove':
+                $this->remove($id);
+                return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'success', 'flash_message' => 'Delete success']);
+            case 'back':
+                return redirect()->route('admin.cateFood.listData');
+            default:
+                return redirect()->route('admin.cateFood.listData')->with(['flash_level' => 'danger', 'flash_message' => 'The action you require incorect']);
         }
     }
 }

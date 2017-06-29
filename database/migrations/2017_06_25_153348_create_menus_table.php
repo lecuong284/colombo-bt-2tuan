@@ -18,13 +18,7 @@ class CreateMenusTable extends Migration
             $table->string('name');
             $table->string('alias');
             $table->string('list_parents')->nullable();
-            $table->string('link')->nullable();
-            $table->string('image')->nullable();
             $table->integer('parent_id')->nullable();
-            $table->string('target', 10)->nullable();
-            $table->integer('level')->nullable();
-            $table->boolean('published')->nullable();
-            $table->integer('ordering')->default(0);
             $table->timestamps();
 		});
 	}

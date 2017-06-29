@@ -17,8 +17,6 @@ class CreateCateFoodsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('alias');
-            $table->boolean('published');
-            $table->integer('ordering')->default(0);
             $table->timestamps();
 		});
 	}

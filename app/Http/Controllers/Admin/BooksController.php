@@ -47,7 +47,6 @@ class BooksController extends Controller
         return view('admin.order.detail', ['title' => $title, 'button' => $button, 'data' => $data, 'number_person' => $number_person]);
     }
 
-    /*function update cat*/
     public function updateCate($request, $id) {
         $this->validate($request,
             [
@@ -59,11 +58,10 @@ class BooksController extends Controller
                 'name.required' => 'Bạn chưa nhập tên',
                 'email.required' => 'Bạn chưa nhập email',
                 'date.required' => 'Bạn chưa nhập ngày tháng'
-
             ]
         );
         $existName = Order::where('name', $request->name)->count();
-        if($existName && $request->name != $request->name_old) { /*validate when changes the name when update*/
+        if($existName && $request->name != $request->name_old) {
             return false;
         }
         $order = Order::find($id);
@@ -82,40 +80,22 @@ class BooksController extends Controller
         $task = $request->task;
         $id = $request->id;
         switch ($task) {
-            case 'apply': /*nếu lưu thành công thì đưa về trang sửa không thì đưa về trang thêm và hiển thị thông báo*/
-                $result = $this->updateCate( $request, $id);
-                if($result) {
-                    return redirect()->route('admin.order.getEditCate', ['id' => $id])->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Edit Menu Item']);
-                }else {
-                    return redirect()->route('admin.order.getEditCate', ['id' => $id])->with(['flash_level' => 'danger', 'flash_message' => 'Can not update']);
-                }
-
-            case 'save': /*lưu thành công hay không cũng đưa về trang danh sách và hiển thị thông báo*/
-                $result = $this->updateCate($request, $id);
-                if($result) {
-                    return redirect()->route('admin.order.listData')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Edit Menu Item']);
-                }else {
-                    return redirect()->route('admin.order.listData')->with(['flash_level' => 'danger', 'flash_message' => 'Can not update']);
-                }
-
-            case 'edit': /*chuyển đến trang sửa*/ /*chỉ sử dụng khi click vào checkbox rồi click button sửa*/
+            case 'apply':
+                $this->updateCate( $request, $id);
+                return redirect()->route('admin.order.getEditCate', ['id' => $id])->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Edit Menu Item']);
+            case 'save':
+                $this->updateCate($request, $id);
+                return redirect()->route('admin.order.listData')->with(['flash_level' => 'success', 'flash_message' => 'Success! Complete Edit Menu Item']);
+            case 'edit':
                 $id = $id[0];
                 return redirect()->route('admin.order.getEditCate', ['id' => $id]);
-
-            case 'remove': /*delete data*/
-                $result = $this->remove($id);
-                if($result) {
-                    return redirect()->route('admin.order.listData')->with(['flash_level' => 'success', 'flash_message' => 'Delete success']);
-                } else {
-                    return redirect()->route('admin.order.listData')->with(['flash_level' => 'danger', 'flash_message' => 'Exist error where delete']);
-                }
-
-            case 'back': /*trở về trang danh sách*/
+            case 'remove':
+                $this->remove($id);
+                return redirect()->route('admin.order.listData')->with(['flash_level' => 'success', 'flash_message' => 'Delete success']);
+            case 'back':
                 return redirect()->route('admin.order.listData');
-
             default:
                 return redirect()->route('admin.order.listData')->with(['flash_level' => 'danger', 'flash_message' => 'The action you require incorect']);
-
         }
     }
 }

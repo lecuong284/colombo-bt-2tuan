@@ -9,9 +9,7 @@ class CateFood extends Model
 
     protected $fillable = [
         'name',
-        'alias',
-        'published',
-        'ordering'
+        'alias'
     ];
 
     public function getFillable() {
